@@ -1,0 +1,8 @@
+{
+  "name": "zero-width-encoding",
+  "version": "1.0.0",
+  "main": "src/index.mjs",
+  "repository": "git@github.com:hachibu/zero-width-encoding.git",
+  "author": "Raymond Sohn <raymondsohn@gmail.com>",
+  "license": "MIT"
+}
