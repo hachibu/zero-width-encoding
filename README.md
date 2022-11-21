@@ -1,13 +1,14 @@
-# Zero-Width Encoding
+# Catching Email Leaks At Scale
 
-After reading [this article](https://www.ndtv.com/world-news/elon-musk-explains-how-tesla-caught-employee-leaking-data-3433802) on how Tesla caught an employee who leaked confidential data, I thought about how I would solve this problem.
+After reading [this article](https://www.ndtv.com/world-news/elon-musk-explains-how-tesla-caught-employee-leaking-data-3433802) about how Tesla caught an employee who leaked confidential data by using a binary signature of 1 or 2 spaces between sentences, I realized that this approach has 2 major flaws.
 
-The approach outlined in the article has 2 problems.
+1. The encoding is visible to the naked eye.
+2. This approach is not scalable if they intend to uniquely identify billions of email recipients because
+the number of sentences must grow exponentially. For example, an email with 100 sentences can at most uniquely identify 10,000 email recipients.
 
-1. The encoding is easy to detect because it's visible to the naked eye.
-2. Identifying large amounts of people would require embedding a long unique signature into the email (e.g. random SHA256 hash) which would result in very long emails that would be very suspicious looking.
+This is a proof-of-concept using cryptographic hashes and zero-width text encoding to solve the problems above. By encoding a SHA256 hash into a series of zero-width characters we can identify 10^77 unique email recipients in a way that is invisible to the naked eye.
 
-This is a proof-of-concept for zero-width text encoding and decoding which could be used to identify data leaks by embedding a random SHA256 hash tied to the recipient in an email.
+The 256-bit hashspace is very large and is on the order of 10^77. The total number of atoms in the known universe is currently estimated by physicists to be on the order of 10^80.
 
 ## What is zero-width encoding?
 Zero-width encoding is a text-to-invisible-text encoding scheme. The core of the algorithm is very simple and can be summarized by the table below.
@@ -18,10 +19,10 @@ Zero-width encoding is a text-to-invisible-text encoding scheme. The core of the
 | 1           | zero-width joiner     |
 | end of byte | zero-width non-joiner |
 
-### Encoding
+## Encoding
 UTF-8 string > Uint8 Array > binary string > invisible string
 
-### Decoding
+## Decoding
 Invisible string > binary string > Uint8Array > UTF-8 string
 
 ## Usage

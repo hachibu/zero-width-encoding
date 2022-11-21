@@ -1,3 +1,4 @@
+import { createHmac } from 'crypto'
 import { TextEncoder, TextDecoder } from 'util';
 
 const ZERO_WIDTH_SPACE = '​'
@@ -52,13 +53,18 @@ export const ZeroWidthDecode = (string) => {
 }
 
 function main() {
-    const str = "Hello World!"
-    const strEncoded = ZeroWidthEncode(str)
-    const strDecoded = ZeroWidthDecode(strEncoded)
+    const emailRecipient = 'test@test.com'
+    const hmacKey = 'secret'
+
+    const hash = createHmac('sha256', hmacKey).update(emailRecipient).digest('hex')
+    const hashEncoded = ZeroWidthEncode(hash)
+    const hashDecoded = ZeroWidthDecode(hashEncoded)
+
     console.log({
-        str,
-        strEncoded,
-        strDecoded
+        hash,
+        hashEncoded,
+        hashEncodedLength: hashEncoded.length,
+        hashDecoded
     })
 }
 
