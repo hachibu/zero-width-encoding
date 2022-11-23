@@ -1,18 +1,13 @@
-import { createHmac } from 'crypto'
 import { TextEncoder, TextDecoder } from 'util';
 
 const ZERO_WIDTH_SPACE = '​'
 const ZERO_WIDTH_JOINER = '‍'
 const ZERO_WIDTH_NON_JOINER = '‌'
 
-export const ZeroWidthEncode = (string) => {
+export const zeroWidthEncode = (string) => {
     const encoder = new TextEncoder()
     const byteEncoding = encoder.encode(string)
-
-    let binaryEncoding = []
-    for (const byte of byteEncoding) {
-        binaryEncoding.push(byte.toString(2))
-    }
+    const binaryEncoding = byteEncoding.reduce((a, b) => a.concat(b.toString(2)), [])
 
     let zeroWidthEncoding = ''
     for (const binaryString of binaryEncoding) {
@@ -25,7 +20,7 @@ export const ZeroWidthEncode = (string) => {
     return zeroWidthEncoding
 }
 
-export const ZeroWidthDecode = (string) => {
+export const zeroWidthDecode = (string) => {
     let binaryEncoding = []
     let currentBinaryString = ''
     for (let i = 0; i < string.length; i++) {
@@ -51,21 +46,3 @@ export const ZeroWidthDecode = (string) => {
 
     return stringEncoding
 }
-
-function main() {
-    const emailRecipient = 'test@test.com'
-    const hmacKey = 'secret'
-
-    const hash = createHmac('sha256', hmacKey).update(emailRecipient).digest('hex')
-    const hashEncoded = ZeroWidthEncode(hash)
-    const hashDecoded = ZeroWidthDecode(hashEncoded)
-
-    console.log({
-        hash,
-        hashEncoded,
-        hashEncodedLength: hashEncoded.length,
-        hashDecoded
-    })
-}
-
-main()

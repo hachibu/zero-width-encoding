@@ -27,5 +27,5 @@ Invisible string > binary string > Uint8Array > UTF-8 string
 
 ## Usage
 ```
-node src/index.mjs
+node examples/email.mjs
 ```
