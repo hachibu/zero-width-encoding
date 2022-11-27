@@ -4,5 +4,11 @@
   "main": "src/index.mjs",
   "repository": "git@github.com:hachibu/zero-width-encoding.git",
   "author": "Raymond Sohn <raymondsohn@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "2.8.0"
+  },
+  "scripts": {
+    "fmt": "yarn prettier --write ."
+  }
 }
