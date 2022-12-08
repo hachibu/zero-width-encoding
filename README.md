@@ -1,4 +1,4 @@
-# Catching Email Leaks At Scale
+# Zero-Width Encoding
 
 After reading [this article](https://www.ndtv.com/world-news/elon-musk-explains-how-tesla-caught-employee-leaking-data-3433802) about how Tesla caught an employee who leaked confidential data by using a binary signature of 1 or 2 spaces between sentences, I realized that this approach has 2 major flaws.
 
@@ -17,8 +17,8 @@ Zero-width encoding is a text-to-invisible-text encoding scheme. The core of the
 | binary      | invisible character   |
 | ----------- | --------------------- |
 | 0           | zero-width space      |
-| 1           | zero-width joiner     |
-| end of byte | zero-width non-joiner |
+| 1           | zero-width non-joiner |
+| end of byte | zero-width joiner     |
 
 ## Encoding
 
@@ -27,9 +27,3 @@ UTF-8 string > Uint8 Array > binary string > invisible string
 ## Decoding
 
 Invisible string > binary string > Uint8Array > UTF-8 string
-
-## Usage
-
-```
-node examples/email.mjs
-```
