@@ -1,3 +1,3 @@
-export declare const zeroWidthEncode: (string: string) => string;
-export declare const zeroWidthDecode: (zeroWidthString: string) => string;
+export declare const encode: (string: string) => string;
+export declare const decode: (zeroWidthString: string) => string;
 //# sourceMappingURL=index.d.ts.map

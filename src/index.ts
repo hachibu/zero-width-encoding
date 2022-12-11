@@ -4,7 +4,7 @@ const ZERO_WIDTH_SPACE = String.fromCodePoint(8203)
 const ZERO_WIDTH_NON_JOINER = String.fromCodePoint(8204)
 const ZERO_WIDTH_JOINER = String.fromCodePoint(8205)
 
-export const zeroWidthEncode = (string: string): string => {
+export const encode = (string: string): string => {
     const textEncoder = new TextEncoder()
     const binaryStrings = textEncoder
         .encode(string)
@@ -31,7 +31,7 @@ export const zeroWidthEncode = (string: string): string => {
     return zeroWidthString
 }
 
-export const zeroWidthDecode = (zeroWidthString: string): string => {
+export const decode = (zeroWidthString: string): string => {
     const textDecoder = new TextDecoder('utf-8')
     const binaryStrings: string[] = []
 
