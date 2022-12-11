@@ -32,7 +32,9 @@ export const zeroWidthEncode = (string: string): string => {
 }
 
 export const zeroWidthDecode = (zeroWidthString: string): string => {
+    const textDecoder = new TextDecoder('utf-8')
     const binaryStrings: string[] = []
+
     let currentBinaryString = ''
     for (const char of zeroWidthString) {
         switch (char) {
@@ -52,8 +54,6 @@ export const zeroWidthDecode = (zeroWidthString: string): string => {
     const bytes = new Uint8Array(
         binaryStrings.map((binaryString) => parseInt(binaryString, 2))
     )
-    const textDecoder = new TextDecoder('utf-8')
-    const string = textDecoder.decode(bytes)
 
-    return string
+    return textDecoder.decode(bytes)
 }
