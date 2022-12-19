@@ -13,22 +13,22 @@ export const encode = (string: string): string => {
             []
         )
 
-    let zeroWidthString = ''
+    let encodedString = ''
     for (const binaryString of binaryStrings) {
         for (const digit of binaryString) {
             switch (digit) {
                 case '0':
-                    zeroWidthString += ZERO_WIDTH_SPACE
+                    encodedString += ZERO_WIDTH_SPACE
                     break
                 case '1':
-                    zeroWidthString += ZERO_WIDTH_NON_JOINER
+                    encodedString += ZERO_WIDTH_NON_JOINER
                     break
             }
         }
-        zeroWidthString += ZERO_WIDTH_JOINER
+        encodedString += ZERO_WIDTH_JOINER
     }
 
-    return zeroWidthString
+    return encodedString
 }
 
 export const decode = (zeroWidthString: string): string => {
@@ -54,6 +54,7 @@ export const decode = (zeroWidthString: string): string => {
     const bytes = new Uint8Array(
         binaryStrings.map((binaryString) => parseInt(binaryString, 2))
     )
+    const decodedString = textDecoder.decode(bytes)
 
-    return textDecoder.decode(bytes)
+    return decodedString
 }
