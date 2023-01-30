@@ -3,56 +3,51 @@ const ZERO_WIDTH_NON_JOINER = String.fromCodePoint(8204);
 const ZERO_WIDTH_JOINER = String.fromCodePoint(8205);
 
 export const encode = (string: string): string => {
+  let result = "";
   const textEncoder = new TextEncoder();
-  const binaryStrings = textEncoder
-    .encode(string)
-    .reduce(
-      (acc: string[], byte: number) => acc.concat(byte.toString(2)),
-      [],
-    );
+  const bytes: Uint8Array = textEncoder.encode(string);
 
-  let encodedString = "";
-  for (const binaryString of binaryStrings) {
-    for (const digit of binaryString) {
+  for (let byte of bytes) {
+    while (byte) {
+      const digit = byte & 1;
       switch (digit) {
-        case "0":
-          encodedString += ZERO_WIDTH_SPACE;
+        case 0:
+          result += ZERO_WIDTH_SPACE;
           break;
-        case "1":
-          encodedString += ZERO_WIDTH_NON_JOINER;
+        case 1:
+          result += ZERO_WIDTH_NON_JOINER;
           break;
       }
+      byte = byte >> 1;
     }
-    encodedString += ZERO_WIDTH_JOINER;
+    result += ZERO_WIDTH_JOINER;
   }
 
-  return encodedString;
+  return result;
 };
 
-export const decode = (zeroWidthString: string): string => {
+export const decode = (string: string): string => {
+  let result = "";
   const textDecoder = new TextDecoder("utf-8");
-  const binaryStrings: string[] = [];
+  const bytes: number[] = [];
 
-  let currentBinaryString = "";
-  for (const char of zeroWidthString) {
+  let byteString = "";
+  for (const char of string) {
     switch (char) {
       case ZERO_WIDTH_SPACE:
-        currentBinaryString += "0";
+        byteString = "0" + byteString;
         break;
       case ZERO_WIDTH_NON_JOINER:
-        currentBinaryString += "1";
+        byteString = "1" + byteString;
         break;
       case ZERO_WIDTH_JOINER:
-        binaryStrings.push(currentBinaryString);
-        currentBinaryString = "";
+        bytes.push(parseInt(byteString, 2));
+        byteString = "";
         break;
     }
   }
 
-  const bytes = new Uint8Array(
-    binaryStrings.map((binaryString) => parseInt(binaryString, 2)),
-  );
-  const decodedString = textDecoder.decode(bytes);
+  result = textDecoder.decode(new Uint8Array(bytes));
 
-  return decodedString;
+  return result;
 };
