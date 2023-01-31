@@ -27,11 +27,10 @@ export const encode = (string: string): string => {
 };
 
 export const decode = (string: string): string => {
-  let result = "";
   const textDecoder = new TextDecoder("utf-8");
   const bytes: number[] = [];
-
   let byteString = "";
+
   for (const char of string) {
     switch (char) {
       case ZERO_WIDTH_SPACE:
@@ -47,7 +46,5 @@ export const decode = (string: string): string => {
     }
   }
 
-  result = textDecoder.decode(new Uint8Array(bytes));
-
-  return result;
+  return textDecoder.decode(new Uint8Array(bytes));
 };
